@@ -5,7 +5,7 @@ This project implements a machine learning model to predict wine quality using d
 ## Features
 
 - Wine quality prediction using Decision Tree Classifier
-- Two different splitting criteria: Gini Index and Entropy
+- Two different splitting criteria: Gini Index (Possible to use Entropy as well)
 - Model evaluation with accuracy metrics and confusion matrix
 - Decision tree visualization
 - Support for both training and prediction phases
@@ -72,8 +72,7 @@ The project implements the following key functions:
 
 - `import_data()`: Loads and displays basic information about the dataset
 - `split_dataset()`: Splits the data into training and testing sets
-- `train_using_gini()`: Trains the model using Gini index as the splitting criterion
-- `train_using_entropy()`: Trains the model using Entropy as the splitting criterion
+- `train_decision_tree`: Trains the model using Gini index as the splitting criterion
 - `prediction()`: Makes predictions on test data
 - `calculate_accuracy()`: Calculates and displays model performance metrics
 - `plot_decision_tree()`: Visualizes the decision tree
