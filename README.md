@@ -1,100 +1,65 @@
-# Wine Quality Prediction
+# 🍷 Wine Quality Binary Classification using Decision Tree
 
-This project implements a machine learning model to predict wine quality using decision trees. The model is trained on the Wine Quality dataset and can predict wine quality based on various physicochemical properties.
+This project uses a Decision Tree classifier to predict the **quality of red wine** as either **low quality (0)** or **high quality (1)**, based on various physicochemical properties.
 
-## Features
+The project involves:
+- Data preprocessing
+- Binary classification transformation
+- Model building using a scikit-learn pipeline
+- Hyperparameter tuning with cross-validation
+- Model evaluation and visualization
 
-- Wine quality prediction using Decision Tree Classifier
-- Two different splitting criteria: Gini Index (Possible to use Entropy as well)
-- Model evaluation with accuracy metrics and confusion matrix
-- Decision tree visualization
-- Support for both training and prediction phases
+---
 
-## Prerequisites
+## 📁 Dataset
 
-Before running this project, make sure you have the following Python packages installed:
+- **Source**: [`winequality-red.csv`](https://archive.ics.uci.edu/ml/datasets/Wine+Quality)
+- **Attributes**: 11 numeric input features (e.g., acidity, sugar, pH, etc.) and a quality score (0–10).
+- **Target**: Original multiclass `quality` column is converted into a binary classification:
+  - Class `0`: Low quality (quality ≤ 5)
+  - Class `1`: High quality (quality ≥ 6)
 
-```bash
-numpy
-pandas
-scikit-learn
-matplotlib
-```
+---
 
-You can install these dependencies using pip:
+## 📊 Workflow
 
-```bash
-pip install numpy pandas scikit-learn matplotlib
-```
+### 1. Data Preparation
+- Load and inspect the dataset
+- Convert the `quality` score into binary labels
+- Split data using stratified sampling to maintain class balance
 
-## Dataset
+### 2. Pipeline
+- **StandardScaler**: Normalize feature values
+- **DecisionTreeClassifier**: Train a decision tree on the scaled data
 
-The project uses the Wine Quality dataset (red wine). The dataset should be named `winequality-red.csv` and should be placed in the same directory as the script. The dataset contains the following features:
+### 3. Hyperparameter Tuning
+Performed using `GridSearchCV` with 5-fold `StratifiedKFold` cross-validation. The following hyperparameters are explored:
+- `criterion`: `gini`, `entropy`
+- `max_depth`: `None`, `5`, `10`, `15`
+- `min_samples_split`: `2`, `5`, `10`
+- `min_samples_leaf`: `1`, `3`, `5`
+- `class_weight`: `None`, `'balanced'`
 
-- Fixed acidity
-- Volatile acidity
-- Citric acid
-- Residual sugar
-- Chlorides
-- Free sulfur dioxide
-- Total sulfur dioxide
-- Density
-- pH
-- Sulphates
-- Alcohol
-- Quality (target variable)
+### 4. Model Evaluation
+- Test set evaluation using `accuracy_score` and `classification_report`
+- Confusion matrix visualization using `ConfusionMatrixDisplay`
 
-## Usage
+---
 
-1. Clone the repository:
+## 📈 Results
 
-```bash
-git clone <your-repository-url>
-cd <repository-name>
-```
+Example output after training:
 
-2. Place the `winequality-red.csv` file in the project directory
+```text
+Best Params: {'clf__class_weight': 'balanced', 'clf__criterion': 'entropy', 'clf__max_depth': 10, ...}
+Best Cross-Validation Score: 0.79
 
-3. Run the script:
+Test Set Evaluation:
+              precision    recall  f1-score   support
 
-```bash
-python wine.py
-```
+           0       0.75      0.71      0.73       210
+           1       0.83      0.85      0.84       309
 
-## Project Structure
-
-- `wine.py`: Main script containing the implementation
-- `winequality-red.csv`: Dataset file (not included in repository)
-
-## Implementation Details
-
-The project implements the following key functions:
-
-- `import_data()`: Loads and displays basic information about the dataset
-- `split_dataset()`: Splits the data into training and testing sets
-- `train_decision_tree`: Trains the model using Gini index as the splitting criterion
-- `prediction()`: Makes predictions on test data
-- `calculate_accuracy()`: Calculates and displays model performance metrics
-- `plot_decision_tree()`: Visualizes the decision tree
-
-## Model Performance
-
-The model is evaluated using:
-
-- Confusion Matrix
-- Accuracy Score
-- Classification Report
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Acknowledgments
-
-- The Wine Quality dataset
-- scikit-learn library
-- matplotlib for visualization
+    accuracy                           0.80       519
+   macro avg       0.79      0.78      0.79       519
+weighted avg       0.80      0.80      0.80       519
